@@ -1,358 +1,356 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Checkbox } from "@/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import { toast } from "sonner"
-import { AlertCircle, CheckCircle2, Info, Terminal } from "lucide-react"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Toggle } from "@/components/ui/toggle"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowRight, Sparkles, Zap, Shield, Globe, Code, Layers, Users, Star, CheckCircle2, TrendingUp } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Waves } from "@/components/ui/waves-background";
+import { ThemeToggle } from "@/components/theme-toggle";
 
-export default function Home() {
-  const [progress, setProgress] = useState(30)
-  const [sliderValue, setSliderValue] = useState([50])
-  const [switchOn, setSwitchOn] = useState(false)
+export default function Page() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   return (
-    <div className="min-h-screen p-6 bg-background">
-      <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header Section */}
-        <div className="text-center space-y-4 py-8">
-          <h1 className="text-4xl font-bold tracking-tight">
-            Next.js + Tailwind CSS + shadcn/ui
+    <div className="min-h-screen relative">
+      {/* Animated Waves Background */}
+      <div className="fixed inset-0 -z-10">
+        <Waves
+          lineColor="rgba(29, 161, 242, 0.3)"
+          backgroundColor="transparent"
+          waveSpeedX={0.02}
+          waveSpeedY={0.01}
+          waveAmpX={40}
+          waveAmpY={20}
+          friction={0.9}
+          tension={0.01}
+          maxCursorMove={120}
+          xGap={12}
+          yGap={36}
+        />
+      </div>
+      
+      {/* Background Gradient Overlay */}
+      <div className="fixed inset-0 -z-10 bg-gradient-to-b from-white/70 via-gray-50/60 to-white/70 dark:from-gray-950/70 dark:via-gray-900/60 dark:to-gray-950/70" />
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl dark:bg-gray-950/80">
+        <div className="container mx-auto px-4">
+          <div className="flex h-12 items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-primary" />
+              <span className="text-lg font-semibold">Innovate</span>
+            </div>
+            <div className="hidden md:flex items-center gap-6 text-sm">
+              <a href="#features" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors">Features</a>
+              <a href="#solutions" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors">Solutions</a>
+              <a href="#pricing" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors">Pricing</a>
+              <a href="#about" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors">About</a>
+            </div>
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <Button variant="ghost" size="sm" className="h-8 text-sm">Sign In</Button>
+              <Button size="sm" className="h-8 text-sm">Get Started</Button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className={`relative container mx-auto px-4 py-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className="mx-auto max-w-3xl text-center">
+          <Badge className="mb-4 h-6 text-sm" variant="secondary">
+            <Sparkles className="mr-1 h-3 w-3" />
+            New: AI-Powered Features
+          </Badge>
+          <h1 className="mb-5 text-5xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl lg:text-7xl">
+            Build the Future
+            <span className="block bg-gradient-to-r from-blue-600 via-violet-600 to-purple-600 bg-clip-text text-transparent">
+              Transform Your Ideas
+            </span>
           </h1>
-          <p className="text-lg text-muted-foreground">
-            Tous les composants shadcn/ui sont installés et prêts à l'emploi
+          <p className="mb-8 text-base text-gray-600 dark:text-gray-400 sm:text-lg">
+            Create exceptional digital experiences with our cutting-edge platform.
+            Ship faster, scale effortlessly, and innovate without limits.
           </p>
-          <div className="flex gap-2 justify-center">
-            <Badge>v15.0</Badge>
-            <Badge variant="secondary">TypeScript</Badge>
-            <Badge variant="outline">Tailwind v4</Badge>
-            <Badge variant="destructive">46 composants</Badge>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button size="default" className="gap-2 h-10 text-base">
+              Start Building <ArrowRight className="h-4 w-4" />
+            </Button>
+            <Button size="default" variant="outline" className="h-10 text-base">
+              Watch Demo
+            </Button>
           </div>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Card Example */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Composants Formulaire</CardTitle>
-              <CardDescription>Input, Select, Checkbox, etc.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="nom@exemple.com" />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="message">Message</Label>
-                <Textarea id="message" placeholder="Votre message..." />
-              </div>
+        {/* Stats */}
+        <div className="mt-16 grid grid-cols-2 gap-5 sm:grid-cols-4">
+          {[
+            { label: "Active Users", value: "10M+", icon: Users },
+            { label: "Projects Deployed", value: "500K+", icon: Globe },
+            { label: "Uptime", value: "99.99%", icon: Shield },
+            { label: "Customer Rating", value: "4.9/5", icon: Star },
+          ].map((stat, i) => (
+            <div key={i} className="text-center">
+              <stat.icon className="mx-auto mb-2 h-5 w-5 text-gray-400" />
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
+              <div className="text-xs text-gray-600 dark:text-gray-400">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox id="terms" />
-                <Label htmlFor="terms" className="text-sm">
-                  Accepter les conditions
-                </Label>
-              </div>
-
-              <RadioGroup defaultValue="option1">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="option1" id="option1" />
-                  <Label htmlFor="option1">Option 1</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="option2" id="option2" />
-                  <Label htmlFor="option2">Option 2</Label>
-                </div>
-              </RadioGroup>
-
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner..." />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">Light</SelectItem>
-                  <SelectItem value="dark">Dark</SelectItem>
-                  <SelectItem value="system">System</SelectItem>
-                </SelectContent>
-              </Select>
-            </CardContent>
-            <CardFooter>
-              <Button className="w-full">Soumettre</Button>
-            </CardFooter>
-          </Card>
-
-          {/* Alerts & Notifications */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Alertes & Notifications</CardTitle>
-              <CardDescription>Différents types d'alertes</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Alert>
-                <Info className="h-4 w-4" />
-                <AlertTitle>Information</AlertTitle>
-                <AlertDescription>
-                  Ceci est une alerte d'information.
-                </AlertDescription>
-              </Alert>
-
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Erreur</AlertTitle>
-                <AlertDescription>
-                  Une erreur s'est produite.
-                </AlertDescription>
-              </Alert>
-
-              <div className="space-y-2">
-                <Button 
-                  onClick={() => toast.success("Action réussie!")}
-                  variant="outline"
-                  className="w-full"
-                >
-                  Toast Success
-                </Button>
-                <Button 
-                  onClick={() => toast.error("Une erreur est survenue")}
-                  variant="outline"
-                  className="w-full"
-                >
-                  Toast Error
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Interactive Components */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Composants Interactifs</CardTitle>
-              <CardDescription>Sliders, Switches, Progress</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label>Progress: {progress}%</Label>
-                <Progress value={progress} />
-                <Button 
-                  size="sm"
-                  onClick={() => setProgress((p) => Math.min(100, p + 10))}
-                >
-                  Augmenter
-                </Button>
-              </div>
-
-              <div className="space-y-2">
-                <Label>Slider: {sliderValue[0]}</Label>
-                <Slider 
-                  value={sliderValue} 
-                  onValueChange={setSliderValue}
-                  max={100}
-                  step={1}
-                />
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Switch 
-                  checked={switchOn}
-                  onCheckedChange={setSwitchOn}
-                />
-                <Label>Mode: {switchOn ? "ON" : "OFF"}</Label>
-              </div>
-
-              <div className="flex gap-2">
-                <Toggle>Bold</Toggle>
-                <Toggle>Italic</Toggle>
-                <Toggle>Underline</Toggle>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Tabs Component */}
-          <Card className="md:col-span-2">
-            <CardHeader>
-              <CardTitle>Tabs Navigation</CardTitle>
-              <CardDescription>Navigation par onglets</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Tabs defaultValue="account" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="account">Compte</TabsTrigger>
-                  <TabsTrigger value="password">Mot de passe</TabsTrigger>
-                  <TabsTrigger value="settings">Paramètres</TabsTrigger>
-                </TabsList>
-                <TabsContent value="account" className="space-y-4">
-                  <h3 className="text-lg font-medium">Informations du compte</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Gérez vos informations personnelles ici.
-                  </p>
-                </TabsContent>
-                <TabsContent value="password" className="space-y-4">
-                  <h3 className="text-lg font-medium">Sécurité</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Modifiez votre mot de passe et les paramètres de sécurité.
-                  </p>
-                </TabsContent>
-                <TabsContent value="settings" className="space-y-4">
-                  <h3 className="text-lg font-medium">Préférences</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Personnalisez votre expérience utilisateur.
-                  </p>
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
-
-          {/* User Profile Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Profil Utilisateur</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-sm font-medium">@shadcn</p>
-                  <p className="text-xs text-muted-foreground">
-                    Développeur UI/UX
-                  </p>
-                </div>
-              </div>
-              
-              <Separator />
-              
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="w-full">
-                    Options du profil
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                  <DropdownMenuLabel>Mon Compte</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>Profil</DropdownMenuItem>
-                  <DropdownMenuItem>Paramètres</DropdownMenuItem>
-                  <DropdownMenuItem>Support</DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>Déconnexion</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </CardContent>
-          </Card>
+      {/* Features Section */}
+      <section id="features" className="container mx-auto px-4 py-16">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">
+            Everything You Need to Succeed
+          </h2>
+          <p className="text-base text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+            Powerful features designed to accelerate your development workflow
+          </p>
         </div>
 
-        {/* Accordion Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Questions Fréquentes</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
-                <AccordionTrigger>Qu'est-ce que shadcn/ui ?</AccordionTrigger>
-                <AccordionContent>
-                  shadcn/ui est une collection de composants réutilisables construits avec Radix UI et Tailwind CSS.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger>Comment installer les composants ?</AccordionTrigger>
-                <AccordionContent>
-                  Utilisez la CLI avec la commande: npx shadcn@latest add [composant]
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger>Les composants sont-ils personnalisables ?</AccordionTrigger>
-                <AccordionContent>
-                  Oui, tous les composants sont entièrement personnalisables et copiés directement dans votre projet.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </CardContent>
-        </Card>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              icon: Zap,
+              title: "Lightning Fast",
+              description: "Optimized performance with sub-second load times",
+              color: "text-yellow-500",
+            },
+            {
+              icon: Shield,
+              title: "Enterprise Security",
+              description: "Bank-grade encryption and compliance standards",
+              color: "text-green-500",
+            },
+            {
+              icon: Globe,
+              title: "Global Scale",
+              description: "Deploy to 30+ regions with automatic scaling",
+              color: "text-blue-500",
+            },
+            {
+              icon: Code,
+              title: "Developer First",
+              description: "Intuitive APIs and comprehensive docs",
+              color: "text-purple-500",
+            },
+            {
+              icon: Layers,
+              title: "Modular Design",
+              description: "Mix and match components as needed",
+              color: "text-pink-500",
+            },
+            {
+              icon: TrendingUp,
+              title: "Analytics Built-in",
+              description: "Real-time insights and metrics",
+              color: "text-orange-500",
+            },
+          ].map((feature, i) => (
+            <Card key={i} className="group hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+              <CardHeader className="pb-4">
+                <feature.icon className={`h-7 w-7 mb-2 ${feature.color}`} />
+                <CardTitle className="text-base">{feature.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <CardDescription className="text-sm">{feature.description}</CardDescription>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
 
-        {/* Dialog Example */}
-        <div className="flex justify-center pb-8">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button size="lg">Ouvrir la boîte de dialogue</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Exemple de Dialog</DialogTitle>
-                <DialogDescription>
-                  Ceci est un exemple de boîte de dialogue modale avec shadcn/ui.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="py-4">
-                <p className="text-sm text-muted-foreground">
-                  Les composants Dialog sont parfaits pour les confirmations et les formulaires.
-                </p>
-              </div>
-              <DialogFooter>
-                <Button variant="outline">Annuler</Button>
-                <Button>Confirmer</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+      {/* Solutions Section */}
+      <section id="solutions" className="container mx-auto px-4 py-16">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">
+            Solutions for Every Team
+          </h2>
+          <p className="text-base text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+            Whether you're a startup or enterprise, we have the right solution
+          </p>
         </div>
 
-        {/* Loading States */}
-        <Card>
-          <CardHeader>
-            <CardTitle>États de chargement</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-[250px]" />
-              <Skeleton className="h-4 w-[200px]" />
-              <Skeleton className="h-4 w-[150px]" />
+        <Tabs defaultValue="startup" className="mx-auto max-w-3xl">
+          <TabsList className="grid w-full grid-cols-3 h-10">
+            <TabsTrigger value="startup" className="text-sm">Startups</TabsTrigger>
+            <TabsTrigger value="business" className="text-sm">Business</TabsTrigger>
+            <TabsTrigger value="enterprise" className="text-sm">Enterprise</TabsTrigger>
+          </TabsList>
+          <TabsContent value="startup" className="mt-5">
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Built for Speed</CardTitle>
+                <CardDescription className="text-sm">
+                  Move fast and iterate quickly with our tools
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3 pt-0">
+                {["Free tier up to 10K users", "One-click deployments", "Built-in A/B testing", "Community support"].map((item, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                    <span className="text-sm text-gray-600 dark:text-gray-400">{item}</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="business" className="mt-5">
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Scale with Confidence</CardTitle>
+                <CardDescription className="text-sm">
+                  Professional tools for growing businesses
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3 pt-0">
+                {["Advanced analytics dashboard", "Priority support", "Custom integrations", "SLA guarantee"].map((item, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                    <span className="text-sm text-gray-600 dark:text-gray-400">{item}</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="enterprise" className="mt-5">
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Enterprise Excellence</CardTitle>
+                <CardDescription className="text-sm">
+                  Comprehensive solutions for large operations
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3 pt-0">
+                {["Dedicated infrastructure", "24/7 phone support", "Custom contracts", "On-premise deployment"].map((item, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                    <span className="text-sm text-gray-600 dark:text-gray-400">{item}</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="container mx-auto px-4 py-16">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">
+            Simple, Transparent Pricing
+          </h2>
+          <p className="text-base text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+            Choose the perfect plan for your needs. Always flexible to scale
+          </p>
+        </div>
+
+        <div className="grid gap-5 lg:grid-cols-3 max-w-4xl mx-auto">
+          {[
+            {
+              name: "Starter",
+              price: "$0",
+              description: "Perfect for side projects",
+              features: ["Up to 3 projects", "1GB storage", "Community support", "Basic analytics"],
+              cta: "Start Free",
+              variant: "outline" as const,
+            },
+            {
+              name: "Pro",
+              price: "$29",
+              description: "For professional developers",
+              features: ["Unlimited projects", "100GB storage", "Priority support", "Advanced analytics", "Custom domain"],
+              cta: "Start Trial",
+              variant: "default" as const,
+              popular: true,
+            },
+            {
+              name: "Enterprise",
+              price: "Custom",
+              description: "For large organizations",
+              features: ["Everything in Pro", "Unlimited storage", "Dedicated support", "Custom integrations", "SLA"],
+              cta: "Contact Sales",
+              variant: "outline" as const,
+            },
+          ].map((plan, i) => (
+            <Card key={i} className={`relative ${plan.popular ? 'border-primary shadow-md' : ''}`}>
+              {plan.popular && (
+                <Badge className="absolute -top-2 right-4 h-6 text-xs" variant="default">
+                  Most Popular
+                </Badge>
+              )}
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">{plan.name}</CardTitle>
+                <CardDescription className="text-sm">{plan.description}</CardDescription>
+                <div className="mt-3">
+                  <span className="text-3xl font-bold">{plan.price}</span>
+                  {plan.price !== "Custom" && <span className="text-sm text-gray-600 dark:text-gray-400">/month</span>}
+                </div>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <ul className="space-y-2 mb-5">
+                  {plan.features.map((feature, j) => (
+                    <li key={j} className="flex items-center gap-2 text-sm">
+                      <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
+                      <span className="text-gray-600 dark:text-gray-400">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button className="w-full h-10 text-sm" variant={plan.variant}>
+                  {plan.cta}
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="container mx-auto px-4 py-20">
+        <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0">
+          <CardContent className="py-10 text-center">
+            <h2 className="text-3xl font-bold mb-3">Ready to Get Started?</h2>
+            <p className="mb-5 text-sm text-blue-100 max-w-xl mx-auto">
+              Join thousands of developers building the next generation of applications
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button size="default" variant="secondary" className="gap-2 h-10 text-sm">
+                Start Building Today <ArrowRight className="h-4 w-4" />
+              </Button>
+              <Button size="default" variant="ghost" className="h-10 text-sm text-white hover:text-white hover:bg-white/20">
+                Schedule a Demo
+              </Button>
             </div>
           </CardContent>
         </Card>
-      </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <span className="text-sm font-semibold">Innovate</span>
+            </div>
+            <div className="flex gap-5 text-xs text-gray-600 dark:text-gray-400">
+              <a href="#" className="hover:text-gray-900 dark:hover:text-gray-100">Terms</a>
+              <a href="#" className="hover:text-gray-900 dark:hover:text-gray-100">Privacy</a>
+              <a href="#" className="hover:text-gray-900 dark:hover:text-gray-100">Contact</a>
+            </div>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              © 2024 Innovate. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
-  )
+  );
 }
