@@ -11,9 +11,38 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Page() {
   const [isVisible, setIsVisible] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setIsVisible(true);
+    
+    // Observer pour animations au scroll
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll('.scroll-reveal').forEach((el) => {
+      observer.observe(el);
+    });
+
+    // Effet magnétique pour les boutons
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -37,13 +66,26 @@ export default function Page() {
       
       {/* Background Gradient Overlay */}
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-white/70 via-gray-50/60 to-white/70 dark:from-gray-950/70 dark:via-gray-900/60 dark:to-gray-950/70" />
+      
+      {/* Particules flottantes */}
+      {[...Array(5)].map((_, i) => (
+        <div
+          key={i}
+          className="particle fixed w-2 h-2 bg-gradient-to-r from-violet-500 to-blue-500 rounded-full"
+          style={{
+            left: `${Math.random() * 100}%`,
+            animationDelay: `${i * 3}s`,
+            animationDuration: `${15 + Math.random() * 10}s`
+          }}
+        />
+      ))}
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl dark:bg-gray-950/80">
         <div className="container mx-auto px-4">
           <div className="flex h-12 items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-primary" />
-              <span className="text-lg font-semibold">Innovate</span>
+            <div className="flex items-center gap-2 group">
+              <Sparkles className="h-5 w-5 text-primary transition-transform group-hover:rotate-180 duration-500" />
+              <span className="text-lg font-semibold glitch">Innovate</span>
             </div>
             <div className="hidden md:flex items-center gap-6 text-sm">
               <a href="#features" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors">Features</a>
@@ -53,8 +95,11 @@ export default function Page() {
             </div>
             <div className="flex items-center gap-3">
               <ThemeToggle />
-              <Button variant="ghost" size="sm" className="h-8 text-sm">Sign In</Button>
-              <Button size="sm" className="h-8 text-sm">Get Started</Button>
+              <Button variant="ghost" size="sm" className="h-8 text-sm magnetic-button hover:scale-110 transition-transform">Sign In</Button>
+              <Button size="sm" className="h-8 text-sm relative overflow-hidden group">
+                <span className="relative z-10">Get Started</span>
+                <span className="absolute inset-0 gradient-border-animation opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Button>
             </div>
           </div>
         </div>
@@ -63,13 +108,15 @@ export default function Page() {
       {/* Hero Section */}
       <section className={`relative container mx-auto px-4 py-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="mx-auto max-w-3xl text-center">
-          <Badge className="mb-4 h-6 text-sm" variant="secondary">
-            <Sparkles className="mr-1 h-3 w-3" />
+          <Badge className="mb-4 h-6 text-sm float-animation" variant="secondary">
+            <Sparkles className="mr-1 h-3 w-3 animate-spin" />
             New: AI-Powered Features
           </Badge>
           <h1 className="mb-5 text-5xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl lg:text-7xl">
-            Build the Future
-            <span className="block bg-gradient-to-r from-blue-600 via-violet-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="inline-block slide-in-up" style={{ animationDelay: '0.1s' }}>Build</span>{' '}
+            <span className="inline-block slide-in-up" style={{ animationDelay: '0.2s' }}>the</span>{' '}
+            <span className="inline-block slide-in-up neon-text" style={{ animationDelay: '0.3s' }}>Future</span>
+            <span className="block text-shimmer mt-2">
               Transform Your Ideas
             </span>
           </h1>
@@ -78,10 +125,13 @@ export default function Page() {
             Ship faster, scale effortlessly, and innovate without limits.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button size="default" className="gap-2 h-10 text-base">
-              Start Building <ArrowRight className="h-4 w-4" />
+            <Button size="default" className="gap-2 h-10 text-base relative group overflow-hidden">
+              <span className="relative z-10 flex items-center gap-2">
+                Start Building <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </span>
+              <span className="absolute inset-0 bg-gradient-to-r from-violet-600 to-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             </Button>
-            <Button size="default" variant="outline" className="h-10 text-base">
+            <Button size="default" variant="outline" className="h-10 text-base rotating-border bg-background">
               Watch Demo
             </Button>
           </div>
@@ -95,9 +145,9 @@ export default function Page() {
             { label: "Uptime", value: "99.99%", icon: Shield },
             { label: "Customer Rating", value: "4.9/5", icon: Star },
           ].map((stat, i) => (
-            <div key={i} className="text-center">
-              <stat.icon className="mx-auto mb-2 h-5 w-5 text-gray-400" />
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
+            <div key={i} className="text-center group hover:scale-110 transition-transform duration-300 cursor-pointer">
+              <stat.icon className="mx-auto mb-2 h-5 w-5 text-gray-400 group-hover:text-primary transition-colors" />
+              <div className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-violet-600 group-hover:to-blue-600 group-hover:bg-clip-text transition-all">{stat.value}</div>
               <div className="text-xs text-gray-600 dark:text-gray-400">{stat.label}</div>
             </div>
           ))}
@@ -105,7 +155,7 @@ export default function Page() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="container mx-auto px-4 py-16">
+      <section id="features" className="container mx-auto px-4 py-16 scroll-reveal">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">
             Everything You Need to Succeed
@@ -154,10 +204,10 @@ export default function Page() {
               color: "text-orange-500",
             },
           ].map((feature, i) => (
-            <Card key={i} className="group hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+            <Card key={i} className="group glow-card hover-3d cursor-pointer">
               <CardHeader className="pb-4">
-                <feature.icon className={`h-7 w-7 mb-2 ${feature.color}`} />
-                <CardTitle className="text-base">{feature.title}</CardTitle>
+                <feature.icon className={`h-7 w-7 mb-2 ${feature.color} group-hover:scale-125 transition-transform duration-300`} />
+                <CardTitle className="text-base group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-violet-600 group-hover:to-blue-600 group-hover:bg-clip-text transition-all">{feature.title}</CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
                 <CardDescription className="text-sm">{feature.description}</CardDescription>
@@ -168,7 +218,7 @@ export default function Page() {
       </section>
 
       {/* Solutions Section */}
-      <section id="solutions" className="container mx-auto px-4 py-16">
+      <section id="solutions" className="container mx-auto px-4 py-16 scroll-reveal">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">
             Solutions for Every Team
@@ -242,7 +292,7 @@ export default function Page() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="container mx-auto px-4 py-16">
+      <section id="pricing" className="container mx-auto px-4 py-16 scroll-reveal">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">
             Simple, Transparent Pricing
@@ -280,7 +330,7 @@ export default function Page() {
               variant: "outline" as const,
             },
           ].map((plan, i) => (
-            <Card key={i} className={`relative ${plan.popular ? 'border-primary shadow-md' : ''}`}>
+            <Card key={i} className={`relative hover-3d ${plan.popular ? 'border-primary shadow-md glow-card' : ''} transition-all duration-300`}>
               {plan.popular && (
                 <Badge className="absolute -top-2 right-4 h-6 text-xs" variant="default">
                   Most Popular
@@ -303,8 +353,11 @@ export default function Page() {
                     </li>
                   ))}
                 </ul>
-                <Button className="w-full h-10 text-sm" variant={plan.variant}>
-                  {plan.cta}
+                <Button className="w-full h-10 text-sm group relative overflow-hidden" variant={plan.variant}>
+                  <span className="relative z-10">{plan.cta}</span>
+                  {plan.popular && (
+                    <span className="absolute inset-0 bg-gradient-to-r from-violet-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  )}
                 </Button>
               </CardContent>
             </Card>
@@ -313,16 +366,17 @@ export default function Page() {
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20">
-        <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0">
-          <CardContent className="py-10 text-center">
+      <section className="container mx-auto px-4 py-20 scroll-reveal">
+        <Card className="gradient-border-animation text-white border-0 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-90" />
+          <CardContent className="py-10 text-center relative z-10">
             <h2 className="text-3xl font-bold mb-3">Ready to Get Started?</h2>
             <p className="mb-5 text-sm text-blue-100 max-w-xl mx-auto">
               Join thousands of developers building the next generation of applications
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button size="default" variant="secondary" className="gap-2 h-10 text-sm">
-                Start Building Today <ArrowRight className="h-4 w-4" />
+              <Button size="default" variant="secondary" className="gap-2 h-10 text-sm magnetic-button group">
+                Start Building Today <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-2" />
               </Button>
               <Button size="default" variant="ghost" className="h-10 text-sm text-white hover:text-white hover:bg-white/20">
                 Schedule a Demo
